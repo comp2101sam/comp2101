@@ -53,6 +53,7 @@ while [ $# -gt 0 ]; do
           ;;
           *)
             echo "-d option is followed with a number[1-6]."
+            exit
             shift
         esac
       ;;
@@ -60,7 +61,6 @@ while [ $# -gt 0 ]; do
   #displaying error message if the user gave the -d option without a single digit number
       error=$1
       echo "Invalid value $error"
-      exit 
       shift
       ;;
       esac
