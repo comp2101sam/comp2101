@@ -21,7 +21,11 @@
 echo "Setuid files:"
 echo "============="
 find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 3
-echo "Getuid files:"
+echo "Setgid files:"
 echo "=============="
+# using the find command to search for regular files with setgid bit
 find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
-find / 2>/dev/null -type f -exec ls -l --block-size=M {} + | sort -rh -k 5 | head -n 10 | awk '{print $5, $3, $9}'
+echo "10 largest regular files in the system, sorted by their sizes"
+echo "====================================="
+# displaying the 10 largestregular files
+find / -type f -exec ls -l --block-size=MB {} + 2>/dev/null | sort -k5 -hr | head -n 10 | awk '{print $3, $5, $9}'

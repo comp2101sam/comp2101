@@ -60,6 +60,7 @@ while [ $# -gt 0 ]; do
   #displaying error message if the user gave the -d option without a single digit number
       error=$1
       echo "Invalid value $error"
+      exit 
       shift
       ;;
       esac
