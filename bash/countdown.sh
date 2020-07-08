@@ -19,8 +19,9 @@ numberOfSleeps=10 # how many sleeps to wait for before quitting for inactivity
 #   error-message ["some text to print to stderr"]
 #
 function error-message {
-        local prog=`basename $0`
-        echo "${prog}: ${1:-Unknown Error - a moose bit my sister once...}" >&2
+        local prog
+        prog=`basename $0`
+        echo "${prog}: ${1:-Unknown Error - I have found the secret of getting out of the script}" >&2
 }
 
 # This function will send a message to stderr and exit with a failure status
@@ -39,7 +40,8 @@ EOF
 }
 
 # Normally traps catch signals and do something useful or necessary with them
-
+trap doCountdown INT
+trap error-message QUIT
 
 # Produce the numbers for the countdown
 function doCountdown {
@@ -47,6 +49,7 @@ while [ $sleepCount -gt 0 ]; do
     echo $((sleepCount * 100 / $numberOfSleeps))
     sleepCount=$((sleepCount - 1))
     sleep $sleepTime
+    echo 'You are not allowed to interrupt the count'
 done
 }
 
@@ -67,6 +70,13 @@ while [ $# -gt 0 ]; do
             usage
             exit
             ;;
+
+          --int )
+          trap INTdisplay SIGINT
+          ;;
+          --quit )
+          trap QUITdisplay SIGQUIT
+          ;;
         * )
             usage
             error-exit "$1 not a recognized option"
